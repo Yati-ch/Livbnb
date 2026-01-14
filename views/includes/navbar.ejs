@@ -1,0 +1,144 @@
+<style>
+  /* ================= NAVBAR ================= */
+  .navbar {
+    background: #ffffff !important;
+    box-shadow: 0 1px 12px rgba(0, 0, 0, 0.08);
+    padding: 0.75rem 1.25rem;
+  }
+
+  .navbar-brand {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #222 !important;
+  }
+
+  .navbar-brand i {
+    color: #ff385c;
+    margin-right: 6px;
+  }
+
+  .nav-link {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #222 !important;
+    padding: 0.5rem 0.75rem;
+    transition: all 0.2s;
+  }
+
+  .nav-link:hover {
+    background: #f7f7f7;
+    border-radius: 20px;
+  }
+
+  .search-wrapper {
+    display: flex;
+    align-items: center;
+    background: white;
+    border: 1px solid #dddddd;
+    border-radius: 999px;
+    padding: 0.35rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    max-width: 420px;
+    width: 100%;
+  }
+
+  .search-input {
+    border: none;
+    outline: none;
+    padding: 0.45rem 0.75rem;
+    font-size: 0.9rem;
+    flex: 1;
+    background: transparent;
+  }
+
+  .search-btn {
+    background: #ff385c;
+    color: white;
+    border-radius: 50%;
+    width: 38px;
+    height: 38px;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+  }
+
+  .search-btn:hover {
+    background: #e31c5f;
+  }
+
+  .auth-link {
+    border-radius: 999px;
+    padding: 0.45rem 0.9rem;
+    transition: all 0.2s;
+  }
+
+  .auth-link:hover {
+    background: #f7f7f7;
+  }
+
+  @media (max-width: 768px) {
+    .search-wrapper {
+      margin: 0.75rem 0;
+      max-width: 100%;
+    }
+
+    .navbar-collapse {
+      background: white;
+      padding-bottom: 1rem;
+    }
+
+    .nav-link {
+      padding: 0.7rem;
+    }
+  }
+</style>
+
+<nav class="navbar navbar-expand-md navbar-light sticky-top">
+  <div class="container-fluid">
+    <!-- Brand -->
+    <a class="navbar-brand" href="/listings">
+      <i class="fa-regular fa-compass"></i> Livbnb
+    </a>
+
+    <!-- Toggler -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Navbar Content -->
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <!-- Explore Link -->
+      <ul class="navbar-nav mx-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/listings">Explore</a>
+        </li>
+      </ul>
+
+      <!-- Search -->
+      <form action="/listings/search" method="GET" class="d-flex justify-content-center flex-grow-1 px-3">
+        <div class="search-wrapper">
+          <input type="search" name="q" class="search-input" placeholder="Search destinations" required />
+          <button class="search-btn" type="submit">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </button>
+        </div>
+      </form>
+
+      <!-- Auth Links -->
+      <ul class="navbar-nav ms-auto align-items-center text-center">
+        <li class="nav-item">
+          <a class="nav-link auth-link" href="/listings/new">Livbnb your home</a>
+        </li>
+
+        <% if (!currUser) { %>
+          <li class="nav-item"><a class="nav-link auth-link" href="/signup">Sign up</a></li>
+          <li class="nav-item"><a class="nav-link auth-link" href="/login">Log in</a></li>
+        <% } else { %>
+          <li class="nav-item"><a class="nav-link auth-link" href="/logout">Log out</a></li>
+        <% } %>
+      </ul>
+    </div>
+  </div>
+</nav>

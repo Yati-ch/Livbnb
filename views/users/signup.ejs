@@ -1,0 +1,58 @@
+<% layout("./layouts/boilerplate") %>
+
+<style>
+    .signup-container {
+        max-width: 450px;
+        margin: auto;
+        padding: 20px;
+        background: #f8f9fa;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-label {
+        font-weight: 500;
+    }
+
+    .btn-success {
+        width: 100%;
+        padding: 10px;
+        font-size: 1.1rem;
+    }
+
+    @media (max-width: 576px) {
+        .signup-container {
+            padding: 15px;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            text-align: center;
+        }
+    }
+</style>
+
+<div class="container mt-4">
+    <h1 class="text-center">Signup on Livbnb</h1>
+
+    <div class="signup-container">
+        <form action="/signup" method="post">
+            <div class="mb-3">
+                <label class="form-label">Username</label>
+                <input type="text" name="username" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Email</label>
+                <input type="email" name="email" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Password</label>
+                <input type="password" name="password" class="form-control" required>
+            </div>
+
+            <button class="btn btn-success">Signup</button>
+        </form>
+    </div>
+</div>
