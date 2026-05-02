@@ -18,11 +18,14 @@ const listingRouter = require("./routes/listing.js");
 const reviewsRouter = require("./routes/review.js");
 const userRouter = require("./routes/user.js");
 
+
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
 const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
+const helmet = require("helmet");
+app.use(helmet());
 
 const dbUrl = process.env.ATLASDB_URL;
 const port = process.env.PORT || 8080;
@@ -88,6 +91,10 @@ app.use((req, res, next) => {
 app.use("/listings", listingRouter);
 app.use("/listings/:id/reviews", reviewsRouter);
 app.use("/", userRouter);
+
+app.get("/about", (req, res) => {
+  res.send("Livbnb is a demo Airbnb clone project for learning purposes.");
+});
 
 app.use((req, res, next) => {
     next(new ExpressError(404, "Page Not Found"));
