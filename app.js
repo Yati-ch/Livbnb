@@ -25,7 +25,25 @@ const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const helmet = require("helmet");
-app.use(helmet());
+const fs = require("fs");
+app.use(
+    helmet({
+        contentSecurityPolicy: {
+            directives: {
+                "script-src": ["'self'", "https://cdn.jsdelivr.net"],
+                "style-src": ["'self'", "'unsafe-inline'", "https://cdn.jsdelivr.net", "https://cdnjs.cloudflare.com"],
+                "font-src": ["'self'", "data:", "https://cdnjs.cloudflare.com", "https://cdn.jsdelivr.net"],
+                "img-src": ["'self'", "data:", "blob:", "https:"],
+            },
+        },
+    })
+);
+
+// Resolve folders both locally and inside the bundled Netlify Function
+function resolveDir(name) {
+    const candidates = [path.join(__dirname, name), path.join(process.cwd(), name)];
+    return candidates.find((dir) => fs.existsSync(dir)) || candidates[0];
+}
 
 const dbUrl = process.env.ATLASDB_URL;
 const port = process.env.PORT || 8080;
@@ -44,11 +62,11 @@ main();
 
 app.engine("ejs", ejsMate);
 app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "views"));
+app.set("views", resolveDir("views"));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(resolveDir("public")));
 
 
 const store = MongoStore.create({
@@ -88,6 +106,10 @@ app.use((req, res, next) => {
     next();
 });
 
+app.get("/", (req, res) => {
+    res.redirect("/listings");
+});
+
 app.use("/listings", listingRouter);
 app.use("/listings/:id/reviews", reviewsRouter);
 app.use("/", userRouter);
@@ -110,6 +132,10 @@ app.use((err, req, res, next) => {
     res.status(statusCode).render("error.ejs", { err });
 });
 
-app.listen(port, () => {
-    console.log(`Server listening on port ${port}`);
-});
+if (require.main === module) {
+    app.listen(port, () => {
+        console.log(`Server listening on port ${port}`);
+    });
+}
+
+module.exports = app;
